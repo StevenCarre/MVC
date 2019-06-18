@@ -2,5 +2,5 @@ dbConfig:
     bddserver: 127.0.0.1
     bdddriver: mysql
     bdduser: root
-    bddpassword: adminadmin
+    bddpassword: root
     bddname: Blog

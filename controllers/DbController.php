@@ -2,12 +2,12 @@
 
 class DbController extends ConfigController {
 
-    private $bddServer = '127.0.0.1';
-    private $bddName = '';
-    private $bddUser = 'root';
-    private $bddPassword = '';
-    private $bddDriver = '';
-    private $bddLink;
+    private $bddserver = '127.0.0.1';
+    private $bddname = '';
+    private $bdduser = 'root';
+    private $bddpassword = '';
+    private $bdddriver = '';
+    private $bddlink;
 
     function __construct() {
         parent::__construct();
@@ -27,11 +27,11 @@ class DbController extends ConfigController {
         // construction de la chaîne de connexion à mySQL:
         // $dsn = 'mysql:dbname=testdb;host=127.0.0.1';
 
-        $dsn = $this->bdddriver.':dbname='.$this->bddname.';host='.$this->bddserver;
+        $dsn = $this->bdddriver.':dbname='.$this->bddname.';host='.$this->bddserver;        var_dump($dsn);
 
         try {
-            $this->bddlink = new PDO($dsn, $this->bdduser, $this->bddserver);
-            $this->bddlink = setAttribute(PDO::ATTR_MODE, PDO::ERRMODE_EXCEPTION);
+            $this->bddlink = new PDO($dsn, $this->bdduser, $this->bddpassword);
+            $this->bddlink->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
         catch (PDOException $e) {
             echo('Connection failed: ' . $e->getMessage());
