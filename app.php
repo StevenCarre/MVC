@@ -33,4 +33,46 @@ function autoLoadController($controllerName) {
 spl_autoload_register('autoLoadModel');
 spl_autoload_register('autoLoadController');
 
-new DbController ();
+// new DbController ();
+
+
+// Récupération de la page demandée en URL
+$page = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_STRING);
+
+
+// Récupération d'une action
+$action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
+
+
+// Vérifie si une action est demandée
+if(!is_null($action)) {
+    // Récupère la chaine demandé et la découpe pour récupérer le controleur et la méthode
+    // ex: 'user-login'
+    $tabAction = explode('-',$action);
+    // $tabAction[0] -> user
+    // $tabAction[1] -> login
+
+    $controller = ucfirst($tabAction[0]).'Controller';
+    //loginController
+
+    $method = $tabAction[1].'Action';
+    // loginAction
+
+    $object = new $controller();
+    $resAction = $object->$method();
+
+    if(is_array($resAction) && isset($resAction['view'])) 
+    {        $page = $resAction['view'];
+    }
+
+}
+
+
+// Test si une page est demandée sinon affiche la page par défaut
+// Vérifie également si la vue existe
+if(is_null($page) || !file_exists(PATHVIEWS.$page.'.php')) {
+    $page = 'welcome';
+}
+
+// Affiche la vue
+include PATHVIEWS.'page.php';
